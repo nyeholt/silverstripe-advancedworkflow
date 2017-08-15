@@ -2,6 +2,8 @@
 
 class FrontendWorkflowForm extends Form{
 
+    private static $allowed_actions = ['httpSubmission'];
+
 	function httpSubmission($request) {
 		$vars = $request->requestVars();
 		if(isset($funcName)) {
@@ -60,7 +62,7 @@ class FrontendWorkflowForm extends Form{
 			// Ensure that the action is actually a button or method on the form,
 			// and not just a method on the controller.
 			$this->controller->hasMethod($funcName)
-			&& !$this->controller->checkAccessAction($funcName)
+			&& (!$this->controller->checkAccessAction($funcName) && $funcName !== 'doFrontEndAction')
 			// If a button exists, allow it on the controller
 			&& !$this->Actions()->fieldByName('action_' . $funcName)
 		) {

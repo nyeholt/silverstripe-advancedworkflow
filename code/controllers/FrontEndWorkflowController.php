@@ -8,6 +8,8 @@
  */
 abstract class FrontEndWorkflowController extends Controller {
 
+    private static $allowed_actions = ['Form'];
+
 	protected	$transitionID;
 	protected 	$contextObj;
 
@@ -106,8 +108,10 @@ abstract class FrontEndWorkflowController extends Controller {
 		$this->extend('updateFrontEndWorkflowActions', $wfActions);
 		$this->extend('updateFrontEndRequiredFields', $wfValidator);
 		$this->extend('updateFrontendFormRequirements');
+
+        $wfFields->push(HiddenField::create('ID', '', $this->getContextID()));
 	   
-		$form = new FrontendWorkflowForm($this, 'Form/' . $this->getContextID(), $wfFields, $wfActions, $wfValidator);
+		$form = new FrontendWorkflowForm($this, 'Form', $wfFields, $wfActions, $wfValidator);
 		
 		$form->addExtraClass("fwf");
 		
